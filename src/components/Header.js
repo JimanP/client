@@ -43,7 +43,7 @@ const Header = ({ toggleSidebar }) => {
     },
     logoImage: {
       width: "60px", // 로고 이미지 크기 조정
-      height: "60px",
+      height: "50px",
     },
     nav: {
       display: "flex",
