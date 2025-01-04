@@ -65,6 +65,10 @@ const Header = ({ toggleSidebar }) => {
       whiteSpace: "nowrap", // 텍스트 줄바꿈 방지
     },
   };
+  // 로그인 버튼 클릭 시 로그인 페이지로 이동
+  const handleLoginClick = () => {
+    navigate("/login"); // /login 경로로 이동동
+  };
 
   // 회원가입 버튼 클릭 시 회원가입 페이지로 이동
   const handleSignupClick = () => {
@@ -86,10 +90,8 @@ const Header = ({ toggleSidebar }) => {
       </div>
       {/* 오른쪽: 회원가입, 로그인, 고객센터 */}
       <nav style={styles.nav}>
-        <span style={styles.navItem} onClick={handleSignupClick}>
-          회원가입
-        </span>
-        <span style={styles.navItem}>로그인</span>
+        <span style={styles.navItem} onClick={handleSignupClick}>회원가입</span>
+        <span style={styles.navItem} onClick={handleLoginClick}>로그인</span>
         <span style={styles.navItem}>고객센터</span>
       </nav>
     </header>

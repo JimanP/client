@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom"; // useLocation 추가
 import "./App.css";
 import Header from "./components/Header"; // 기존 Header 컴포넌트 가져오기
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/Sidebar"; // 기존 Sidebar 컴포넌트 가져오기기
 import Sign from "./pages/Sign"; // 회원가입 페이지 컴포넌트 가져오기
+import Login from "./pages/Login";// 로그인 페이지 컴포넌트 가져오기기
 
 // 메인 콘텐츠를 렌더링할 AppContent 컴포넌트 생성
 function AppContent() {
@@ -45,6 +46,8 @@ function AppContent() {
           />
           {/* 회원가입 페이지 */}
           <Route path="/signup" element={<Sign />} />
+          {/* 로그인 페이지 */}
+          <Route path="/login" element={<Login />} />
         </Routes>
       </main>
     </div>
