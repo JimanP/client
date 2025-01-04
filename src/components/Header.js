@@ -1,6 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom"; // 페이지 이동을 위한 useNavigate 가져오기
 
 const Header = ({ toggleSidebar }) => {
+  const navigate = useNavigate(); // 페이지 이동 함수 초기화
+
   const styles = {
     header: {
       position: "fixed",
@@ -63,6 +66,11 @@ const Header = ({ toggleSidebar }) => {
     },
   };
 
+  // 회원가입 버튼 클릭 시 회원가입 페이지로 이동
+  const handleSignupClick = () => {
+    navigate("/signup"); // /signup 경로로 이동
+  };
+
   return (
     <header style={styles.header}>
       {/* 왼쪽: 햄버거 메뉴와 로고 */}
@@ -78,7 +86,9 @@ const Header = ({ toggleSidebar }) => {
       </div>
       {/* 오른쪽: 회원가입, 로그인, 고객센터 */}
       <nav style={styles.nav}>
-        <span style={styles.navItem}>회원가입</span>
+        <span style={styles.navItem} onClick={handleSignupClick}>
+          회원가입
+        </span>
         <span style={styles.navItem}>로그인</span>
         <span style={styles.navItem}>고객센터</span>
       </nav>
