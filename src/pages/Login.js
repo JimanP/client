@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css"; // 스타일 파일 import
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -18,6 +18,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     // localStorage에서 저장된 사용자 정보 가져오기
     const storedUser = JSON.parse(localStorage.getItem("user"));
     console.log("로그인 정보:", formData);
@@ -30,6 +31,7 @@ const Login = () => {
     storedUser.password === formData.password
   ) {
     alert("로그인 성공!");
+    onLogin(storedUser); // 사용자 정보 전달
     navigate("/main");
   } else {
     setError("아이디 또는 비밀번호가 일치하지 않습니다.");

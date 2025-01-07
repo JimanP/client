@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import "./App.css";
 import Header from "./components/Header";
@@ -10,10 +10,23 @@ import Login from "./pages/Login";
 function AppContent() {
   const location = useLocation(); // 현재 경로 확인
   const [menuOpen, setMenuOpen] = useState(false);
+  const [user, setUser] = useState(null); // 사용자 상태
 
-  // 사이드바 상태를 토글하는 함수
-  const toggleSidebar = () => {
-    setMenuOpen(!menuOpen);
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if(storedUser) {
+      setUser(storedUser); // localStorage에 저장된 사용자 정보 불러오기
+    }
+  }, []);
+
+  const handleLogin = (userInfo) => {
+    setUser(userInfo);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem("user");
+    window.location.href = "/login"; // 로그인 페이지로 리디렉션
   };
 
   // 사이드바를 숨길 페이지 목록
@@ -22,7 +35,12 @@ function AppContent() {
   return (
     <div className="App">
       {/* 헤더 */}
-      <Header toggleSidebar={toggleSidebar} />
+      <Header
+        toggleSidebar={() => setMenuOpen(!menuOpen)}
+        user={user}
+        onLogin={handleLogin}
+        onLogout={handleLogout}
+      />
 
       {/* 사이드바: 특정 경로에서는 숨김 */}
       {!hideSidebarPaths.includes(location.pathname) && <Sidebar isOpen={menuOpen} />}
@@ -46,15 +64,19 @@ function AppContent() {
           <Route path="/" element={<Navigate to="/login" />} />
           
           {/* 로그인 페이지 */}
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
           
           {/* 회원가입 페이지 */}
           <Route path="/signup" element={<Sign />} />
           
           {/* 메인 페이지 */}
           <Route
-            path="/main" element={<> <h1>메인 콘텐츠 영역</h1>
-              </>
+            path="/main" element = {
+              user ? (
+              <h1>안녕하세요, {user.username}님!</h1>
+              ) : (
+                <Navigate to ="/login" />
+              )
             }
           />
         </Routes>

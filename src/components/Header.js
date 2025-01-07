@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"; // 페이지 이동을 위한 useNavigate 가져오기
 
-const Header = ({ toggleSidebar }) => {
+const Header = ({ toggleSidebar, user, onLogout }) => {
   const navigate = useNavigate(); // 페이지 이동 함수 초기화
 
   const styles = {
@@ -67,7 +67,7 @@ const Header = ({ toggleSidebar }) => {
   };
   // 로그인 버튼 클릭 시 로그인 페이지로 이동
   const handleLoginClick = () => {
-    navigate("/login"); // /login 경로로 이동동
+    navigate("/login"); // /login 경로로 이동
   };
 
   // 회원가입 버튼 클릭 시 회원가입 페이지로 이동
@@ -88,11 +88,27 @@ const Header = ({ toggleSidebar }) => {
           <img src="logo.png" alt="Logo" style={styles.logoImage} />
         </div>
       </div>
-      {/* 오른쪽: 회원가입, 로그인, 고객센터 */}
+      {/* 오른쪽: 로그인 여부에 따른 메뉴 변경경 */}
       <nav style={styles.nav}>
-        <span style={styles.navItem} onClick={handleSignupClick}>회원가입</span>
-        <span style={styles.navItem} onClick={handleLoginClick}>로그인</span>
-        <span style={styles.navItem}>고객센터</span>
+      {!user ? (
+          <>
+            <span style={styles.navItem} onClick={handleSignupClick}>
+              회원가입
+            </span>
+            <span style={styles.navItem} onClick={handleLoginClick}>
+              로그인
+            </span>
+            <span style={styles.navItem}>고객센터</span>
+          </>
+        ) : (
+          <>
+            <span style={styles.navItem}>도움말</span>
+            <span style={styles.navItem}>안녕하세요, {user.username}님!</span>
+            <span style={styles.navItem} onClick={onLogout}>
+              로그아웃
+            </span>
+          </>
+        )}
       </nav>
     </header>
   );
