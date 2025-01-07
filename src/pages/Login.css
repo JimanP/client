@@ -80,3 +80,10 @@
     background-color: #f0f8ff;
   }
   
+  /* 오류 메시지 */
+  .error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    text-align: left;
+  }

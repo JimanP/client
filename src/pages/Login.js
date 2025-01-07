@@ -8,6 +8,7 @@ const Login = () => {
     password: "",
   });
 
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -17,9 +18,23 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // localStorage에서 저장된 사용자 정보 가져오기
+    const storedUser = JSON.parse(localStorage.getItem("user"));
     console.log("로그인 정보:", formData);
     // 여기에 로그인 검증 로직 추가 가능
-  };
+  
+  
+  if (
+    storedUser &&
+    storedUser.username === formData.username &&
+    storedUser.password === formData.password
+  ) {
+    alert("로그인 성공!");
+    navigate("/main");
+  } else {
+    setError("아이디 또는 비밀번호가 일치하지 않습니다.");
+  }
+};
 
   const handleSignup = () => {
     navigate("/signup");
@@ -50,6 +65,9 @@ const Login = () => {
             placeholder="비밀번호를 입력해주세요"
           />
         </div>
+
+        {/*오류 메시지 표시 */}
+        {error && <p className="error-message">{error}</p>}
 
         {/* 아이디/비밀번호 찾기 */}
         <div className="find-links">

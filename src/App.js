@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom"; // useLocation 추가
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import "./App.css";
-import Header from "./components/Header"; // 기존 Header 컴포넌트 가져오기
-import Sidebar from "./components/Sidebar"; // 기존 Sidebar 컴포넌트 가져오기기
-import Sign from "./pages/Sign"; // 회원가입 페이지 컴포넌트 가져오기
-import Login from "./pages/Login";// 로그인 페이지 컴포넌트 가져오기기
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
+import Sign from "./pages/Sign";
+import Login from "./pages/Login";
 
 // 메인 콘텐츠를 렌더링할 AppContent 컴포넌트 생성
 function AppContent() {
@@ -16,18 +16,25 @@ function AppContent() {
     setMenuOpen(!menuOpen);
   };
 
+  // 사이드바를 숨길 페이지 목록
+  const hideSidebarPaths = ["/signup", "/login"];
+
   return (
     <div className="App">
-      {/* 헤더: toggleSidebar 전달 */}
+      {/* 헤더 */}
       <Header toggleSidebar={toggleSidebar} />
 
-      {/* 사이드바: 회원가입 페이지가 아닐 때만 보여줌 */}
-      {location.pathname !== "/signup" && <Sidebar isOpen={menuOpen} />}
+      {/* 사이드바: 특정 경로에서는 숨김 */}
+      {!hideSidebarPaths.includes(location.pathname) && <Sidebar isOpen={menuOpen} />}
 
       {/* 메인 콘텐츠 영역 */}
       <main
         style={{
-          marginLeft: location.pathname !== "/signup" ? (menuOpen ? "300px" : "0") : "0",
+          marginLeft: hideSidebarPaths.includes(location.pathname)
+            ? "0"
+            : menuOpen
+            ? "300px"
+            : "0",
           marginTop: "60px",
           transition: "margin-left 0.3s",
           padding: "20px",
@@ -35,19 +42,21 @@ function AppContent() {
         }}
       >
         <Routes>
+          {/* 기본 경로 리디렉션 */}
+          <Route path="/" element={<Navigate to="/login" />} />
+          
+          {/* 로그인 페이지 */}
+          <Route path="/login" element={<Login />} />
+          
+          {/* 회원가입 페이지 */}
+          <Route path="/signup" element={<Sign />} />
+          
           {/* 메인 페이지 */}
           <Route
-            path="/"
-            element={
-              <>
-                <h1>메인 콘텐츠 영역</h1>
+            path="/main" element={<> <h1>메인 콘텐츠 영역</h1>
               </>
             }
           />
-          {/* 회원가입 페이지 */}
-          <Route path="/signup" element={<Sign />} />
-          {/* 로그인 페이지 */}
-          <Route path="/login" element={<Login />} />
         </Routes>
       </main>
     </div>
