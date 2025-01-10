@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { Link, useLocation} from "react-router-dom";
 
 const Sidebar = ({ isOpen }) => {
   // 각 카테고리의 확장 상태 관리
   const [expanded, setExpanded] = useState({});
+  const location = useLocation();
 
   // 특정 카테고리 확장/축소 토글 함수
   const toggleExpand = (category) => {
@@ -45,6 +47,12 @@ const Sidebar = ({ isOpen }) => {
       fontSize: "14px",
       color: "#555",
       cursor: "pointer",
+      textDecoration: "none",
+      borderRadius: "4px",
+    },
+    activeMenuItem: {
+      color: "#007bff",
+      fontWeight: "bold",
     },
     icon: {
       marginRight: "10px",
@@ -64,6 +72,7 @@ const Sidebar = ({ isOpen }) => {
     <div style={styles.sidebar}>
       {/* 카테고리 */}
       <div>
+        {/* 상품관리 */}
         <div style={styles.category} onClick={() => toggleExpand("상품관리")}>
           <div>
             <img src="product.png" alt="상품관리" style={styles.icon} />
@@ -80,7 +89,19 @@ const Sidebar = ({ isOpen }) => {
         </div>
         {expanded["상품관리"] && (
           <div style={styles.subMenu}>
-            <div style={styles.subMenuItem}>상품등록</div>
+            {/* 상품등록 */}
+            <Link
+            to="registration"
+            style={{
+              ...styles.subMenuItem,
+              ...(location.pathname === "/registration"
+                ? styles.activeMenuItem
+                : {}),
+              }}
+              >
+                상품등록
+              </Link>
+              {/* 상품수정 */}
             <div style={styles.subMenuItem}>상품수정</div>
           </div>
         )}

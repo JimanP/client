@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
 import Sign from "./pages/Sign";
 import Login from "./pages/Login";
+import Registration from "./pages/Registration";
 
 // 메인 콘텐츠를 렌더링할 AppContent 컴포넌트 생성
 function AppContent() {
@@ -79,6 +80,9 @@ function AppContent() {
               )
             }
           />
+
+          {/* 상품 등록 페이지 */}
+          <Route path="/registration" element={<Registration isSidebarOpen={menuOpen} />} />
         </Routes>
       </main>
     </div>
